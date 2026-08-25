@@ -4,56 +4,56 @@ const cors = require('cors');
 const path = require('path');
 const app = express();
 
-// Secure layout layers to completely protect survivor traffic profiles
+// Enable secure HTTP headers to shield survivor browsing profiles
 app.use(helmet({
-    contentSecurityPolicy: false // Allows the app to render remote webfonts safely
-})); 
+    contentSecurityPolicy: false // Allows the interface to pull system fonts and stylesheets safely
+}));
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-// Serve frontend assets compiled from your repositories
+// Map and serve static assets derived from the source repositories
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Explicit Facility Registry Routing
-const facilityRegistry = [
-    'the-kelly', 
-    'the-andrews', 
-    'the-travellers-hotel', 
+// Explicit shelter routing logic
+const targetFacilities = [
+    'the-kelly',
+    'the-andrews',
+    'the-travellers-hotel',
     'breaking-ground',
     'brc-25th-street'
 ];
 
-facilityRegistry.forEach(facility => {
-    app.get(`/shelter-registry/${facility}`, (req, res) => {
-        res.sendFile(path.join(__dirname, 'public', 'shelter-registry', `${facility}.html`));
+targetFacilities.forEach(facility => {
+    app.get(`/registries/${facility}`, (req, res) => {
+        res.sendFile(path.join(__dirname, 'public', 'registries', `${facility}.html`));
     });
 });
 
-// Bookshelf API: Populates the text-learning showcase module on your landing page
+// Bookshelf API: Showcases your 4 specific web development books
 app.get('/api/bookshelf', (req, res) => {
     res.json([
-        { id: 1, title: "Creating a Website: The Missing Manual", application: "Express server backbone and infrastructure routing." },
-        { id: 2, title: "Practical HTML5 Projects", application: "Semantic grid layouts tracking operational shelter metrics." },
-        { id: 3, title: "jQuery: Novice to Ninja", application: "Client-side event handlers and zero-log information capture." },
-        { id: 4, title: "CSS Secrets", application: "Trauma-informed, accessible high-contrast component styling." }
+        { id: 1, title: "Creating a Website: The Missing Manual", category: "Backend Architecture", focus: "Express routing and site infrastructure blueprints." },
+        { id: 2, title: "Practical HTML5 Projects", category: "Semantic Structural Grids", focus: "Chronological timelines for logging shelter incident entries." },
+        { id: 3, title: "jQuery: Novice to Ninja", category: "Dynamic Logic", focus: "Secure user action event handlers and text template copying." },
+        { id: 4, title: "CSS Secrets by Lea Verou", category: "Advanced UI/UX Typography", focus: "High-contrast themes optimized for screen readers and disabled visitors." }
     ]);
 });
 
-// JSON Router Protection to completely prevent unexpected parsing token crashes
+// Enforce a safe API fallback route to block 'Unexpected token < in JSON' error crashes
 app.use('/api', (req, res) => {
-    res.status(404).json({ error: "Data pipeline target not found." });
+    res.status(404).json({ error: "API data stream endpoint not found." });
 });
 
 // Standard fallback routing for main section
 app.get('/know-your-rights', (req, res) => {
-    res.sendFile(path.join(__dirname, 'public', 'legal-rights', 'index.html'));
+    res.sendFile(path.join(__dirname, 'public', 'know-your-rights', 'index.html'));
 });
 
 const PORT = process.env.PORT || 3000;
 app.listen(PORT, () => {
     console.log(`=======================================================`);
-    console.log(`Family Media Network Online Engine Active`);
-    console.log(`Review interface or test your scripts via http://localhost:${PORT}`);
+    console.log(`Family Media Network Activation Successful`);
+    console.log(`Advocacy portal executing smoothly on http://localhost:${PORT}`);
     console.log(`=======================================================`);
 });
