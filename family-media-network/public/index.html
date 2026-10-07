@@ -1,265 +1,691 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- Security: Restricts script execution to safe sources and inline styles -->
-    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: https://unsplash.com;">
-    <title>Family Media Network - Invite Hub</title>
-    <link rel="stylesheet" href="./css/style.css">
-    
-    <style>
-        :root {
-            --primary-color: #25D366; /* WhatsApp Green */
-            --dark-color: #075E54;
-            --bg-color: #f0f2f5;
-            --text-color: #333;
-        }
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Family Media Network | Shelter Accountability & Survivor Rights</title>
+  <meta
+    name="description"
+    content="Family Media Network is an independent advocacy organization documenting abuse, retaliation, and unsafe conditions in NYC shelters and transitional housing. We provide survivor support, legal resources, and tools to hold city officials accountable."
+  />
+  <style>
+    :root {
+      --primary: #0a64b9;
+      --primary-light: #0e77d4;
+      --accent: #d14f4f;
+      --accent-light: #e86363;
+      --success: #2a7a5a;
+      --bg-light: #f9f8f6;
+      --bg-muted: #f0ede8;
+      --text-primary: #1a1f2e;
+      --text-secondary: #54596d;
+      --text-muted: #7c8597;
+      --border-color: #e1e5ed;
+      --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+      --shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.12);
+    }
 
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-        }
+    * {
+      box-sizing: border-box;
+    }
 
-        .container {
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-            max-width: 450px;
-            width: 90%;
-            text-align: center;
-        }
+    html {
+      scroll-behavior: smooth;
+    }
 
-        .logo-placeholder {
-            width: 80px;
-            height: 80px;
-            background-color: var(--primary-color);
-            border-radius: 50%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            margin: 0 auto 20px;
-            color: white;
-            font-size: 32px;
-            font-weight: bold;
-        }
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+      background: var(--bg-light);
+      color: var(--text-primary);
+      line-height: 1.8;
+    }
 
-        h1 {
-            color: var(--dark-color);
-            font-size: 24px;
-            margin-bottom: 10px;
-        }
+    a {
+      color: var(--primary);
+      text-decoration: none;
+      transition: color 0.2s ease;
+    }
 
-        p {
-            font-size: 15px;
-            line-height: 1.6;
-            color: #666;
-            margin-bottom: 25px;
-        }
+    a:hover {
+      color: var(--primary-light);
+    }
 
-        .btn-join {
-            display: inline-block;
-            background-color: var(--primary-color);
-            color: white;
-            text-decoration: none;
-            padding: 14px 30px;
-            font-size: 16px;
-            font-weight: bold;
-            border-radius: 25px;
-            transition: background 0.3s ease;
-            box-shadow: 0 3px 10px rgba(37, 211, 102, 0.3);
-        }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 28px;
+    }
 
-        .btn-join:hover {
-            background-color: var(--dark-color);
-        }
+    header {
+      background: linear-gradient(135deg, #0a1e3e 0%, #162238 100%);
+      color: white;
+      padding-top: 16px;
+      padding-bottom: 8px;
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
 
-        .rules-panel {
-            margin-top: 30px;
-            text-align: left;
-            background: #f9f9f9;
-            padding: 15px;
-            border-radius: 8px;
-            border-left: 4px solid var(--primary-color);
-        }
+    .header-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 12px 0;
+      gap: 20px;
+      flex-wrap: wrap;
+    }
 
-        .rules-panel h2 {
-            font-size: 14px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-top: 0;
-            color: #555;
-        }
+    .logo {
+      font-size: 1.3rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
 
-        .rules-panel ul {
-            margin: 0;
-            padding-left: 20px;
-            font-size: 13px;
-            color: #666;
-        }
+    nav {
+      display: flex;
+      gap: 28px;
+      font-size: 0.95rem;
+      flex-wrap: wrap;
+    }
 
-        .rules-panel li {
-            margin-bottom: 8px;
-        }
-    </style>
-    <style>
-        :root {
-            --primary: #0066cc;
-            --danger: #cc0000;
-            --dark: #222222;
-            --light: #f4f6f9;
-        }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-            line-height: 1.6;
-            color: var(--dark);
-            background-color: var(--light);
-            margin: 0;
-            padding: 20px;
-        }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-        }
-        h1, h2, h3 { color: var(--dark); }
-        .alert-banner {
-            background-color: #fff3f3;
-            border-left: 5px solid var(--danger);
-            padding: 15px;
-            margin-bottom: 25px;
-            border-radius: 4px;
-        }
-        .btn {
-            display: inline-block;
-            background: var(--primary);
-            color: white;
-            text-decoration: none;
-            padding: 12px 24px;
-            border-radius: 4px;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        .btn-whatsapp { background-color: #25D366; }
-        .template-box {
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            padding: 15px;
-            border-radius: 4px;
-            font-family: monospace;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            margin-top: 10px;
-            font-size: 14px;
-        }
-        .facility-tag {
-            display: inline-block;
-            background: #e2e8f0;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-right: 5px;
-        }
-    </style>
+    nav a {
+      color: rgba(255, 255, 255, 0.9);
+      font-weight: 600;
+      border-bottom: 2px solid transparent;
+      padding-bottom: 2px;
+      transition: all 0.2s ease;
+    }
+
+    nav a:hover {
+      color: white;
+      border-bottom-color: var(--primary-light);
+    }
+
+    .hero {
+      background: linear-gradient(135deg, #0a1e3e 0%, #162238 50%, #1a2438 100%);
+      color: white;
+      padding: 72px 0 64px;
+      margin-bottom: 48px;
+    }
+
+    .hero-content {
+      display: grid;
+      grid-template-columns: 1.3fr 1fr;
+      gap: 40px;
+      align-items: center;
+    }
+
+    .hero-text h1 {
+      font-size: clamp(2.6rem, 5vw, 4.2rem);
+      line-height: 1.12;
+      margin: 0 0 18px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    .eyebrow {
+      display: inline-block;
+      background: rgba(255, 255, 255, 0.12);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      color: rgba(255, 255, 255, 0.88);
+      padding: 8px 14px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+    }
+
+    .hero p {
+      font-size: 1.12rem;
+      color: rgba(255, 255, 255, 0.88);
+      margin: 0 0 24px;
+      line-height: 1.7;
+    }
+
+    .cta-buttons {
+      display: flex;
+      gap: 14px;
+      flex-wrap: wrap;
+    }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      padding: 14px 28px;
+      font-weight: 700;
+      border-radius: 12px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      font-size: 0.96rem;
+      letter-spacing: 0.03em;
+    }
+
+    .btn-primary {
+      background: var(--primary);
+      color: white;
+      box-shadow: 0 4px 12px rgba(10, 100, 185, 0.3);
+    }
+
+    .btn-primary:hover {
+      background: var(--primary-light);
+      box-shadow: 0 6px 18px rgba(10, 100, 185, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .btn-secondary {
+      background: white;
+      color: var(--primary);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .btn-secondary:hover {
+      background: #f9f8f6;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+      transform: translateY(-2px);
+    }
+
+    .hero-alert {
+      background: rgba(255, 255, 255, 0.08);
+      border: 2px solid #ff6b6b;
+      border-left: 6px solid #ff6b6b;
+      border-radius: 16px;
+      padding: 24px;
+      backdrop-filter: blur(10px);
+    }
+
+    .hero-alert strong {
+      color: #ff8a8a;
+      display: block;
+      margin-bottom: 8px;
+      font-size: 0.96rem;
+    }
+
+    .hero-alert p {
+      margin: 0;
+      font-size: 0.95rem;
+    }
+
+    section {
+      padding: 56px 0;
+    }
+
+    section h2 {
+      font-size: clamp(2rem, 3.5vw, 2.8rem);
+      margin: 0 0 28px;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+    }
+
+    section > p {
+      font-size: 1.08rem;
+      color: var(--text-secondary);
+      max-width: 700px;
+      margin: 0 0 32px;
+      line-height: 1.8;
+    }
+
+    .facilities-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+      gap: 12px;
+      margin-top: 24px;
+    }
+
+    .facility-tag {
+      background: linear-gradient(135deg, #e8f2ff 0%, #dfe9f8 100%);
+      border: 2px solid var(--primary);
+      color: var(--primary);
+      padding: 12px 16px;
+      border-radius: 12px;
+      font-weight: 700;
+      text-align: center;
+      font-size: 0.94rem;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.2s ease;
+    }
+
+    .facility-tag:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .audience-cards {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 24px;
+      margin-top: 32px;
+    }
+
+    .audience-card {
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 28px;
+      box-shadow: var(--shadow-sm);
+      transition: all 0.3s ease;
+    }
+
+    .audience-card:hover {
+      box-shadow: var(--shadow-md);
+      transform: translateY(-4px);
+      border-color: var(--primary);
+    }
+
+    .audience-card h3 {
+      font-size: 1.3rem;
+      margin: 0 0 12px;
+      color: var(--primary);
+    }
+
+    .audience-card p {
+      margin: 0;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .rights-list {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+      display: grid;
+      gap: 0;
+    }
+
+    .rights-list li {
+      border-bottom: 1px solid var(--border-color);
+      padding: 24px 0;
+      color: var(--text-secondary);
+    }
+
+    .rights-list li:last-child {
+      border-bottom: none;
+    }
+
+    .rights-list strong {
+      display: block;
+      color: var(--primary);
+      font-size: 1.08rem;
+      margin-bottom: 8px;
+    }
+
+    .doc-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 28px;
+      margin-top: 32px;
+    }
+
+    .doc-card {
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .doc-card h3 {
+      font-size: 1.25rem;
+      margin: 0 0 16px;
+      color: var(--primary);
+    }
+
+    .doc-card ul {
+      margin: 0;
+      padding-left: 20px;
+      color: var(--text-secondary);
+    }
+
+    .doc-card li {
+      margin-bottom: 10px;
+      line-height: 1.7;
+    }
+
+    .template-wrapper {
+      background: white;
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 32px;
+      box-shadow: var(--shadow-sm);
+      margin-top: 28px;
+    }
+
+    .template-label {
+      display: inline-block;
+      background: var(--primary);
+      color: white;
+      padding: 6px 12px;
+      border-radius: 6px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      margin-bottom: 12px;
+      text-transform: uppercase;
+    }
+
+    pre {
+      background: #0f1623;
+      color: #e8f0fe;
+      padding: 24px;
+      border-radius: 12px;
+      overflow-x: auto;
+      font-size: 0.92rem;
+      line-height: 1.7;
+      white-space: pre-wrap;
+      word-wrap: break-word;
+      margin: 0;
+    }
+
+    .compensation-box {
+      background: linear-gradient(135deg, #f9f8f6 0%, #f0ede8 100%);
+      border: 2px solid var(--border-color);
+      border-radius: 16px;
+      padding: 36px;
+      margin-top: 28px;
+    }
+
+    .compensation-box h3 {
+      margin-top: 0;
+      color: var(--primary);
+      font-size: 1.2rem;
+    }
+
+    .compensation-box p {
+      color: var(--text-secondary);
+      margin: 12px 0;
+      line-height: 1.8;
+    }
+
+    .cta-banner {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+      color: white;
+      border-radius: 16px;
+      padding: 48px;
+      text-align: center;
+      margin: 56px 0;
+      box-shadow: var(--shadow-lg);
+    }
+
+    .cta-banner h2 {
+      margin-top: 0;
+      color: white;
+    }
+
+    .cta-banner p {
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 1.1rem;
+      margin: 0 0 24px;
+    }
+
+    footer {
+      background: #0a1e3e;
+      color: rgba(255, 255, 255, 0.8);
+      padding: 48px 0 36px;
+      margin-top: 64px;
+      font-size: 0.92rem;
+      line-height: 1.8;
+    }
+
+    footer p {
+      margin: 0;
+    }
+
+    @media (max-width: 768px) {
+      .hero-content,
+      .audience-cards,
+      .doc-grid {
+        grid-template-columns: 1fr;
+      }
+
+      nav {
+        gap: 16px;
+        font-size: 0.88rem;
+      }
+
+      .cta-buttons {
+        flex-direction: column;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .cta-banner {
+        padding: 32px;
+      }
+    }
+  </style>
 </head>
 <body>
-
+  <header>
     <div class="container">
-        <!-- Visual Anchor: Circular Brand Icon -->
-        <div class="logo-placeholder">👨‍👩‍👧</div>
-        
-        <h1>Family Media Network</h1>
-        <p>The central hub for sharing family photos, videos, event updates, and daily memories. Click below to securely request entry or join the active discussion.</p>
-        
-        <!-- Replace 'YOUR-WHATSAPP-LINK' with your actual group invite link -->
-        <a href="https://whatsapp.com" class="btn-join" target="_blank" rel="noopener noreferrer">
-            Join WhatsApp Group
-        </a>
-
-        <div class="rules-panel">
-            <h2>Group Guidelines</h2>
-            <ul>
-                <li><strong>Media Only:</strong> Keep chat focused on photos, videos, and family updates.</li>
-                <li><strong>High Quality:</strong> Send media as "Documents" when possible to preserve original resolution.</li>
-                <li><strong>Privacy First:</strong> Do not forward family media or invite links outside this network.</li>
-            </ul>
-        </div>
+      <div class="header-top">
+        <div class="logo">FAMILY MEDIA NETWORK</div>
+        <nav>
+          <a href="#rights">Know Your Rights</a>
+          <a href="#document">Documentation</a>
+          <a href="#compensation">Compensation</a>
+          <a href="#contact">Contact Officials</a>
+        </nav>
+      </div>
     </div>
+  </header>
+
+  <section class="hero">
     <div class="container">
-    <header>
-        <h1>Family Media Network</h1>
-        <p><strong>Independent Resource Hub & Solidarity Network</strong></p>
-        <p>Documenting conditions and tracking reporting procedures for transitional sites and safe havens across New York City.</p>
-        <div>
-            <span class="facility-tag">The Kelly</span>
-            <span class="facility-tag">The Andrews</span>
-            <span class="facility-tag">The Travellers Hotel</span>
-            <span class="facility-tag">Breaking Ground Sites</span>
+      <div class="hero-content">
+        <div class="hero-text">
+          <span class="eyebrow">Shelter Accountability • New York City</span>
+          <h1>Protecting survivors, disabled residents, and undocumented families in NYC shelters.</h1>
+          <p>
+            Family Media Network is an independent advocacy and public information hub documenting
+            physical abuse, retaliation, unsafe conditions, and systemic failures in New York City
+            safe havens and transitional housing. We provide survivor support, legal resources,
+            and tools to hold city officials accountable.
+          </p>
+
+          <div class="cta-buttons">
+            <a href="#contact" class="btn btn-primary">Email City Officials</a>
+            <a href="#rights" class="btn btn-secondary">Learn Your Rights</a>
+          </div>
         </div>
-    </header>
 
-    <hr>
+        <div class="hero-alert">
+          <strong>Urgent Support</strong>
+          <p>
+            If you are in immediate danger, call 911. If you need emergency shelter
+            support, contact 311 or a trusted legal or advocacy organization immediately. Keep copies of
+            messages, photos, names, dates, and any written notices.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
 
-    <section class="alert-banner">
-        <h3>🚨 Urgent Support & Community Organizing</h3>
-        <p>If you or someone you know has experienced physical harm, assault, or severe retaliation, connect immediately with independent legal advocates or join our secure coordination group.</p>
-        <a href="https://whatsapp.com" class="btn btn-whatsapp" target="_blank">Join Organizing WhatsApp Group</a>
+  <main class="container">
+    <section>
+      <h2>Facilities We Are Tracking</h2>
+      <p>
+        Family Media Network monitors conditions and collects reports from the following sites.
+        If you have information about other facilities, please reach out.
+      </p>
+      <div class="facilities-grid">
+        <div class="facility-tag">The Kelly</div>
+        <div class="facility-tag">The Andrews</div>
+        <div class="facility-tag">The Travellers Hotel</div>
+        <div class="facility-tag">Breaking Ground</div>
+        <div class="facility-tag">Safe Havens</div>
+        <div class="facility-tag">BRC 25th Street</div>
+      </div>
     </section>
 
     <section id="rights">
-        <h2>📘 Know Your Rights: New York City Shelter Protections</h2>
-        <p>Every resident in a New York City safe haven, transitional site, or traditional shelter has legal protections under the law. Language barriers or citizenship status do not waive these rights.</p>
-        
-        <ul>
-            <li><strong>Right to Safety:</strong> Facilities must provide 24/7 basic security monitoring. Incidents of physical violence or harassment must be officially logged by staff.</li>
-            <li><strong>Right to Non-Retaliation:</strong> It is unlawful for facility staff or providers (such as Breaking Ground or other contracted operators) to threaten your shelter placement, transfer you maliciously, or restrict your access because you filed a complaint.</li>
-            <li><strong>Right to Translation Support:</strong> Under NYC Language Access rules, you have the right to request all critical rules, intake paperwork, and disciplinary notices in your preferred language.</li>
-            <li><strong>Right to Safe Accommodations:</strong> If you have a diagnosed physical or psychological condition, you are legally entitled to Reasonable Accommodations (e.g., specific elevator access, lower bunks, or medical partitions).</li>
-        </ul>
+      <h2>Know Your Rights</h2>
+      <p>
+        Every resident in a New York City shelter or transitional housing site has basic legal
+        protections, regardless of immigration status or disability.
+      </p>
+
+      <ul class="rights-list">
+        <li>
+          <strong>Right to Safety</strong>
+          Every resident has an absolute right to a safe environment. Violence, intimidation, or
+          harassment from staff, contractors, or other residents must be documented and addressed.
+        </li>
+        <li>
+          <strong>Right to Non-Retaliation</strong>
+          It is unlawful for shelter operators to punish you for reporting problems, asking for
+          accommodations, requesting medical care, or seeking legal or community support.
+        </li>
+        <li>
+          <strong>Right to Disability Accommodation</strong>
+          Under the Americans with Disabilities Act (ADA), transitional shelters must provide
+          reasonable accommodations including accessible living spaces and medically necessary support.
+        </li>
+        <li>
+          <strong>Right to Language Access</strong>
+          Critical shelter information, rules, and legal notices should be available in a language
+          you understand. Ask for interpretation and keep written records of each request.
+        </li>
+        <li>
+          <strong>Right to Document Complaints</strong>
+          You have a right to make a complaint, ask that it be logged and dated, and receive a copy.
+          Keep evidence organized by date for legal proceedings.
+        </li>
+        <li>
+          <strong>Right to Undocumented Residents</strong>
+          New York City shelter access cannot be withheld or conditioned on immigration status.
+          You retain legal protections. Seek trusted legal aid or advocacy support.
+        </li>
+      </ul>
     </section>
 
-    <hr>
+    <section id="document">
+      <h2>How to Document What Happened</h2>
+      <p>
+        Strong cases begin with clear timelines and consistent documentation. Here is what to preserve
+        before speaking with a lawyer or official.
+      </p>
 
-    <section id="advocacy">
-        <h2>✉️ Advocacy Email Template to City Officials</h2>
-        <p>Use this pre-formatted template to report systemic oversight failures, safety issues, or lack of proper medical accommodations to regulatory bodies like the NYC Department of Homeless Services (DHS) or elected representatives.</p>
-        
-        <div class="template-box">
-Subject: URGENT: Systemic Safety Failures and Resident Abuse at [Insert Facility Name]
+      <div class="doc-grid">
+        <div class="doc-card">
+          <h3>Evidence to Keep</h3>
+          <ul>
+            <li>Dates, times, and exact locations</li>
+            <li>Names of staff, residents, or witnesses</li>
+            <li>What happened, in your own words</li>
+            <li>Photos or videos (if safe to take)</li>
+            <li>Text messages, emails, or written notices</li>
+            <li>Medical records or treatment notes</li>
+            <li>Any notice of retaliation or punishment</li>
+          </ul>
+        </div>
 
-To the Office of the Commissioner / City Officials / Oversight Committee,
+        <div class="doc-card">
+          <h3>Build Your Case</h3>
+          <p>
+            Organize records chronologically. Document patterns: repeated harassment, denial of
+            accommodation, unsafe conditions, retaliation after complaints, or threats related to
+            immigration status or disability.
+          </p>
+          <p>
+            Independent legal advocates and civil rights organizations use detailed evidence to
+            pursue compensation and hold facilities accountable.
+          </p>
+        </div>
+      </div>
+    </section>
 
-I am writing to formally log a report regarding severe, ongoing safety violations, physical risks, and inadequate resident treatment occurring at [Insert Facility Name - e.g., The Kelly / The Andrews / The Travellers Hotel / Breaking Ground].
+    <section class="cta-banner" id="contact">
+      <h2>Email City Officials</h2>
+      <p>
+        Use our template below to formally request investigation, protection, and accountability from
+        the NYC Department of Homeless Services, your City Council member, and the Mayor's Office.
+      </p>
+      <a href="#email-template" class="btn btn-secondary">Copy the Template</a>
+    </section>
 
-Residents at this location—including highly vulnerable individuals with physical dependencies, medical conditions, and undocumented statuses—are facing an unsafe environment characterized by:
-1. Documented failures in basic safety monitoring, leading to unaddressed physical altercations and assaults.
-2. Direct patterns of staff retaliation against residents who attempt to report poor sanitation or safety hazards.
-3. A severe lack of required translation services and denial of basic medical accommodations for disabled individuals.
+    <section id="email-template">
+      <h2>Official Accountability Email Template</h2>
+      <p>
+        Customize and send this email to city officials. It documents systemic failures, requests
+        immediate investigation, and calls for protection of residents.
+      </p>
 
-City-funded safe havens and transitional facilities are legally bound to preserve human dignity and guarantee physical safety. We request an immediate, unannounced regulatory inspection of this location, a formal review of recent incident logs, and a meeting with independent resident advocates to halt ongoing retaliation.
+      <div class="template-wrapper">
+        <div class="template-label">Copy and Customize</div>
+        <pre>Subject: URGENT: Request for Investigation and Protection of Residents at [Facility Name]
+
+To: NYC Department of Homeless Services Commissioner, Mayor's Office, City Council Members, Oversight Committees,
+
+I am writing to formally request an immediate investigation and intervention regarding ongoing conditions at [Facility Name], which is operating as a [safe haven / transitional housing site / shelter] in New York City.
+
+I am concerned about repeated reports of:
+- physical violence, intimidation, or assault;
+- retaliation against residents who report safety issues;
+- unsafe conditions placing residents at serious risk;
+- denial of reasonable accommodations for disability-related needs;
+- insufficient language access and communication support;
+- failure to log, document, or respond to complaints.
+
+Residents at this location—including highly vulnerable individuals with disabilities, medical conditions, and undocumented status—deserve safety, dignity, and legal protection.
+
+I am requesting that the City:
+1. Conduct an immediate, unannounced inspection of the facility
+2. Review all incident logs, complaints, staffing records, and oversight reports
+3. Ensure language access and disability accommodation services are available
+4. Guarantee no retaliation against residents who report conditions
+5. Provide a formal timeline and written response to affected residents
+
+City-funded shelters and safe havens are legally bound to preserve human dignity and guarantee physical safety. This issue requires urgent action.
 
 Sincerely,
-[Your Name / "Concerned Resident Network of Family Media Network"]
-Contact Info (Optional): [Insert Email or Phone]
-        </div>
+[Your Name]
+[Your Phone / Email]
+[Resident, family member, advocate, or legal representative]</pre>
+      </div>
     </section>
 
-    <footer>
-        <p style="font-size: 12px; color: #777; margin-top: 40px;">Disclaimer: This website is an independent community hub. The information provided here does not constitute formal legal advice. For binding legal representation, consult directly with qualified public interest attorneys.</p>
-    </footer>
-    </div>
+    <section id="compensation">
+      <h2>Compensation & Fundraising</h2>
+      <p>
+        This campaign supports survivors by documenting harm, organizing support, and helping pursue
+        compensation, legal representation, and accountability.
+      </p>
 
+      <div class="compensation-box">
+        <h3>How We Use Support</h3>
+        <p>
+          <strong>This work is meant to give people a way to tell their story, preserve evidence, and
+          pressure elected officials, agency leadership, and legal teams to act.</strong>
+        </p>
+        <p>
+          Funds and support may be used to assist with legal costs, documentation, evidence preservation,
+          translation, emergency relief, and advocacy for people harmed while seeking shelter and safety.
+        </p>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container">
+      <p>
+        <strong>Disclaimer:</strong> Family Media Network is an independent advocacy and public information
+        project. It is not a substitute for legal advice, emergency assistance, or formal case representation.
+        If you are in immediate danger, contact emergency services (911) first. For legal representation,
+        contact a licensed attorney or legal aid organization.
+      </p>
+      <p style="margin-top: 16px; opacity: 0.7;">
+        © 2026 Family Media Network Collective. All information is for educational and advocacy purposes.
+      </p>
+    </div>
+  </footer>
 </body>
 </html>
