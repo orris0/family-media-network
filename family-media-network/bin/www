@@ -1,0 +1,68 @@
+#!/usr/bin/env node
+
+/**
+ * Family Media Network - Production Server Launcher
+ * Usage: npm start
+ */
+
+require('dotenv').config();
+const app = require('./family-media-network/server');
+
+const PORT = process.env.PORT || 3000;
+const HOST = process.env.HOST || 'localhost';
+
+const server = app.listen(PORT, HOST, () => {
+  console.log(`
+╔═══════════════════════════════════════════════════════════════════════╗
+║                                                                       ║
+║          🛡️  FAMILY MEDIA NETWORK - ADVOCACY HUB                    ║
+║          Shelter Accountability & Survivor Support                   ║
+║                                                                       ║
+╠═══════════════════════════════════════════════════════════════════════╣
+║                                                                       ║
+║  ✅ Server running: http://${HOST}:${PORT}                            ║
+║                                                                       ║
+║  📍 Access Points:                                                   ║
+║     🏠  Homepage:      http://${HOST}:${PORT}/                       ║
+║     🛡️  Portal:        http://${HOST}:${PORT}/portal                 ║
+║     📊 Dashboard:      http://${HOST}:${PORT}/dashboard              ║
+║     ⚖️  Legal Res:     http://${HOST}:${PORT}/know-your-rights       ║
+║     📧 Email Template: http://${HOST}:${PORT}/email-template         ║
+║                                                                       ║
+║  🔌 API Endpoints:                                                   ║
+║     POST   /api/incidents             - Submit incident report       ║
+║     GET    /api/incidents             - Get incident reports         ║
+║     GET    /api/analytics             - Get dashboard data           ║
+║     GET    /api/analytics/boroughs    - Borough breakdown            ║
+║     GET    /api/analytics/types       - Incident types               ║
+║     GET    /api/resources/rights      - Legal rights                 ║
+║     GET    /api/health                - Health check                 ║
+║                                                                       ║
+║  🔒 Security:                                                        ║
+║     • Helmet.js enabled (CSP, XSS protection)                        ║
+║     • CORS restricted to configured origins                          ║
+║     • JSON payload validation                                        ║
+║     • Rate limiting recommended (add express-rate-limit)             ║
+║                                                                       ║
+╚═══════════════════════════════════════════════════════════════════════╝
+
+⏱️  Ready for connections...
+  `);
+});
+
+// Graceful shutdown
+process.on('SIGTERM', () => {
+  console.log('SIGTERM signal received: closing server');
+  server.close(() => {
+    console.log('Server closed');
+    process.exit(0);
+  });
+});
+
+process.on('SIGINT', () => {
+  console.log('SIGINT signal received: closing server');
+  server.close(() => {
+    console.log('Server closed');
+    process.exit(0);
+  });
+});
