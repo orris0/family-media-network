@@ -1,138 +1,598 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Family Media Network - Shelter Resource Hub</title>
+    <title>Kinfolk - Family Media Network</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brand: {
+                            50: '#eef2ff',
+                            100: '#e0e7ff',
+                            500: '#6366f1',
+                            600: '#4f46e5',
+                            700: '#4338ca',
+                            800: '#3730a3',
+                        }
+                    },
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        :root {
-            --primary: #0066cc;
-            --danger: #cc0000;
-            --dark: #222222;
-            --light: #f4f6f9;
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
         }
-        body {
-            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-            line-height: 1.6;
-            color: var(--dark);
-            background-color: var(--light);
-            margin: 0;
-            padding: 20px;
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.05);
         }
-        .container {
-            max-width: 800px;
-            margin: 0 auto;
-            background: #ffffff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(0, 0, 0, 0.15);
+            border-radius: 9999px;
         }
-        h1, h2, h3 { color: var(--dark); }
-        .alert-banner {
-            background-color: #fff3f3;
-            border-left: 5px solid var(--danger);
-            padding: 15px;
-            margin-bottom: 25px;
-            border-radius: 4px;
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(0, 0, 0, 0.25);
         }
-        .btn {
-            display: inline-block;
-            background: var(--primary);
-            color: white;
-            text-decoration: none;
-            padding: 12px 24px;
-            border-radius: 4px;
-            font-weight: bold;
-            margin-top: 10px;
+        .tree-line {
+            position: relative;
         }
-        .btn-whatsapp { background-color: #25D366; }
-        .template-box {
-            background: #f8f9fa;
-            border: 1px solid #e9ecef;
-            padding: 15px;
-            border-radius: 4px;
-            font-family: monospace;
-            white-space: pre-wrap;
-            word-wrap: break-word;
-            margin-top: 10px;
-            font-size: 14px;
-        }
-        .facility-tag {
-            display: inline-block;
-            background: #e2e8f0;
-            padding: 2px 8px;
-            border-radius: 4px;
-            font-size: 12px;
-            font-weight: bold;
-            margin-right: 5px;
+        .tree-line::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            width: 2px;
+            height: 20px;
+            background: #cbd5e1;
         }
     </style>
 </head>
-<body>
+<body class="bg-slate-50 text-slate-800 antialiased font-sans flex h-screen overflow-hidden">
 
-<div class="container">
-    <header>
-        <h1>Family Media Network</h1>
-        <p><strong>Independent Resource Hub & Solidarity Network</strong></p>
-        <p>Documenting conditions and tracking reporting procedures for transitional sites and safe havens across New York City.</p>
+    <!-- Sidebar Navigation -->
+    <aside id="sidebar" class="w-64 bg-white border-r border-slate-200 flex flex-col justify-between transition-all duration-300 z-30 fixed inset-y-0 left-0 md:static -translate-x-full md:translate-x-0">
         <div>
-            <span class="facility-tag">The Kelly</span>
-            <span class="facility-tag">The Andrews</span>
-            <span class="facility-tag">The Travellers Hotel</span>
-            <span class="facility-tag">Breaking Ground Sites</span>
+            <!-- Logo Section -->
+            <div class="h-16 flex items-center justify-between px-6 border-b border-slate-100">
+                <div class="flex items-center gap-3">
+                    <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-brand-600 to-indigo-400 flex items-center justify-center text-white shadow-md shadow-brand-500/20">
+                        <i class="fa-solid fa-people-roof text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="font-bold text-lg leading-tight text-slate-900">Kinfolk</h1>
+                        <p class="text-xs text-slate-400 font-medium">Miller Family Network</p>
+                    </div>
+                </div>
+                <button id="closeSidebarBtn" class="md:hidden text-slate-400 hover:text-slate-600">
+                    <i class="fa-solid fa-xmark text-lg"></i>
+                </button>
+            </div>
+
+            <!-- Main Navigation Links -->
+            <nav class="p-4 space-y-1">
+                <button onclick="switchTab('feed')" class="nav-btn active flex items-center gap-3.5 w-full px-4 py-3 rounded-xl text-sm font-semibold transition-colors text-brand-600 bg-brand-50">
+                    <i class="fa-solid fa-newspaper text-lg w-5"></i>
+                    <span>Family Feed</span>
+                </button>
+                <button onclick="switchTab('gallery')" class="nav-btn flex items-center gap-3.5 w-full px-4 py-3 rounded-xl text-sm font-semibold transition-colors text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                    <i class="fa-solid fa-photo-film text-lg w-5"></i>
+                    <span>Media Vault</span>
+                </button>
+                <button onclick="switchTab('tree')" class="nav-btn flex items-center gap-3.5 w-full px-4 py-3 rounded-xl text-sm font-semibold transition-colors text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                    <i class="fa-solid fa-diagram-project text-lg w-5"></i>
+                    <span>Family Tree</span>
+                </button>
+                <button onclick="switchTab('calendar')" class="nav-btn flex items-center gap-3.5 w-full px-4 py-3 rounded-xl text-sm font-semibold transition-colors text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                    <i class="fa-solid fa-calendar-days text-lg w-5"></i>
+                    <span>Events Calendar</span>
+                </button>
+                <button onclick="switchTab('messages')" class="nav-btn flex items-center gap-3.5 w-full px-4 py-3 rounded-xl text-sm font-semibold transition-colors text-slate-600 hover:bg-slate-50 hover:text-slate-900 relative">
+                    <i class="fa-solid fa-comments text-lg w-5"></i>
+                    <span>Family Chat</span>
+                    <span class="ml-auto bg-brand-500 text-white text-xs font-bold px-2 py-0.5 rounded-full">3</span>
+                </button>
+                <button onclick="switchTab('directory')" class="nav-btn flex items-center gap-3.5 w-full px-4 py-3 rounded-xl text-sm font-semibold transition-colors text-slate-600 hover:bg-slate-50 hover:text-slate-900">
+                    <i class="fa-solid fa-users text-lg w-5"></i>
+                    <span>Member Directory</span>
+                </button>
+            </nav>
         </div>
-    </header>
 
-    <hr>
-
-    <section class="alert-banner">
-        <h3>🚨 Urgent Support & Community Organizing</h3>
-        <p>If you or someone you know has experienced physical harm, assault, or severe retaliation, connect immediately with independent legal advocates or join our secure coordination group.</p>
-        <a href="https://whatsapp.com" class="btn btn-whatsapp" target="_blank">Join Organizing WhatsApp Group</a>
-    </section>
-
-    <section id="rights">
-        <h2>📘 Know Your Rights: New York City Shelter Protections</h2>
-        <p>Every resident in a New York City safe haven, transitional site, or traditional shelter has legal protections under the law. Language barriers or citizenship status do not waive these rights.</p>
-        
-        <ul>
-            <li><strong>Right to Safety:</strong> Facilities must provide 24/7 basic security monitoring. Incidents of physical violence or harassment must be officially logged by staff.</li>
-            <li><strong>Right to Non-Retaliation:</strong> It is unlawful for facility staff or providers (such as Breaking Ground or other contracted operators) to threaten your shelter placement, transfer you maliciously, or restrict your access because you filed a complaint.</li>
-            <li><strong>Right to Translation Support:</strong> Under NYC Language Access rules, you have the right to request all critical rules, intake paperwork, and disciplinary notices in your preferred language.</li>
-            <li><strong>Right to Safe Accommodations:</strong> If you have a diagnosed physical or psychological condition, you are legally entitled to Reasonable Accommodations (e.g., specific elevator access, lower bunks, or medical partitions).</li>
-        </ul>
-    </section>
-
-    <hr>
-
-    <section id="advocacy">
-        <h2>✉️ Advocacy Email Template to City Officials</h2>
-        <p>Use this pre-formatted template to report systemic oversight failures, safety issues, or lack of proper medical accommodations to regulatory bodies like the NYC Department of Homeless Services (DHS) or elected representatives.</p>
-        
-        <div class="template-box">
-Subject: URGENT: Systemic Safety Failures and Resident Abuse at [Insert Facility Name]
-
-To the Office of the Commissioner / City Officials / Oversight Committee,
-
-I am writing to formally log a report regarding severe, ongoing safety violations, physical risks, and inadequate resident treatment occurring at [Insert Facility Name - e.g., The Kelly / The Andrews / The Travellers Hotel / Breaking Ground].
-
-Residents at this location—including highly vulnerable individuals with physical dependencies, medical conditions, and undocumented statuses—are facing an unsafe environment characterized by:
-1. Documented failures in basic safety monitoring, leading to unaddressed physical altercations and assaults.
-2. Direct patterns of staff retaliation against residents who attempt to report poor sanitation or safety hazards.
-3. A severe lack of required translation services and denial of basic medical accommodations for disabled individuals.
-
-City-funded safe havens and transitional facilities are legally bound to preserve human dignity and guarantee physical safety. We request an immediate, unannounced regulatory inspection of this location, a formal review of recent incident logs, and a meeting with independent resident advocates to halt ongoing retaliation.
-
-Sincerely,
-[Your Name / "Concerned Resident Network of Family Media Network"]
-Contact Info (Optional): [Insert Email or Phone]
+        <!-- User Profile Card in Sidebar -->
+        <div class="p-4 border-t border-slate-100">
+            <div class="flex items-center gap-3 p-2 rounded-xl bg-slate-50 border border-slate-100">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150" alt="Current User" class="w-10 h-10 rounded-full object-cover border-2 border-white shadow-sm">
+                <div class="flex-1 min-w-0">
+                    <h4 class="text-sm font-semibold text-slate-900 truncate">Sarah Miller</h4>
+                    <p class="text-xs text-slate-500 truncate">Granddaughter</p>
+                </div>
+                <button onclick="switchTab('profile')" class="text-slate-400 hover:text-brand-600 p-1.5 rounded-lg hover:bg-white transition-colors">
+                    <i class="fa-solid fa-gear"></i>
+                </button>
+            </div>
         </div>
-    </section>
+    </aside>
 
-    <footer>
-        <p style="font-size: 12px; color: #777; margin-top: 40px;">Disclaimer: This website is an independent community hub. The information provided here does not constitute formal legal advice. For binding legal representation, consult directly with qualified public interest attorneys.</p>
-    </footer>
-</div>
+    <!-- Overlay for Mobile Sidebar -->
+    <div id="sidebarOverlay" onclick="toggleSidebar()" class="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-20 hidden md:hidden"></div>
 
+    <!-- Main Content Area -->
+    <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
+        
+        <!-- Top App Bar -->
+        <header class="h-16 bg-white border-b border-slate-200 flex items-center justify-between px-4 sm:px-8 z-10">
+            <div class="flex items-center gap-3">
+                <button id="openSidebarBtn" onclick="toggleSidebar()" class="md:hidden text-slate-600 hover:text-slate-900 p-2 rounded-lg bg-slate-100">
+                    <i class="fa-solid fa-bars text-lg"></i>
+                </button>
+                <h2 id="currentTabTitle" class="text-xl font-bold text-slate-800">Family News & Feed</h2>
+            </div>
+
+            <!-- Global Action Header Tools -->
+            <div class="flex items-center gap-3">
+                <button onclick="openModal('mediaModal')" class="hidden sm:flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 px-3.5 py-2 rounded-xl font-medium text-sm transition-colors">
+                    <i class="fa-solid fa-cloud-arrow-up text-brand-600"></i>
+                    <span>Upload Media</span>
+                </button>
+                <button onclick="openModal('postModal')" class="flex items-center gap-2 bg-brand-600 hover:bg-brand-700 text-white px-4 py-2 rounded-xl font-semibold text-sm transition-all shadow-sm shadow-brand-500/30">
+                    <i class="fa-solid fa-plus"></i>
+                    <span>New Post</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Tab Views Container -->
+        <main class="flex-1 overflow-y-auto custom-scrollbar p-4 sm:p-6 lg:p-8 bg-slate-50">
+
+            <!-- 1. FAMILY FEED VIEW -->
+            <section id="view-feed" class="tab-view max-w-4xl mx-auto space-y-6">
+                <!-- Share Widget Box -->
+                <div class="bg-white rounded-2xl p-4 shadow-sm border border-slate-200/80 flex items-center gap-4">
+                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150" class="w-11 h-11 rounded-full object-cover">
+                    <button onclick="openModal('postModal')" class="flex-1 bg-slate-100 hover:bg-slate-100/80 text-left text-slate-500 text-sm px-4 py-3 rounded-xl transition-colors font-medium">
+                        Share a family update, milestone, or story...
+                    </button>
+                    <div class="flex gap-1">
+                        <button onclick="openModal('mediaModal')" class="p-2.5 rounded-xl text-slate-500 hover:text-brand-600 hover:bg-brand-50 transition-colors" title="Upload Photo">
+                            <i class="fa-solid fa-image text-lg"></i>
+                        </button>
+                        <button onclick="openModal('mediaModal')" class="p-2.5 rounded-xl text-slate-500 hover:text-brand-600 hover:bg-brand-50 transition-colors" title="Upload Audio/Video">
+                            <i class="fa-solid fa-video text-lg"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Feed Items -->
+                <div id="feedList" class="space-y-6">
+                    <!-- Feed Item 1 -->
+                    <article class="bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden">
+                        <div class="p-5 flex items-center justify-between">
+                            <div class="flex items-center gap-3">
+                                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150" class="w-10 h-10 rounded-full object-cover">
+                                <div>
+                                    <h3 class="font-semibold text-slate-900 text-sm">Uncle Robert Miller</h3>
+                                    <p class="text-xs text-slate-400">2 hours ago • <span class="text-brand-600 font-medium">Vacation</span></p>
+                                </div>
+                            </div>
+                            <button class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-ellipsis"></i></button>
+                        </div>
+                        <p class="px-5 pb-3 text-slate-700 text-sm leading-relaxed">
+                            Captured this beautiful sunset during our trip to Grand Canyon with Grandma! She conquered the whole trail today! 🌄
+                        </p>
+                        <div class="px-5 pb-2">
+                            <img src="https://images.unsplash.com/photo-1469854523086-cc02fe5d8800?auto=format&fit=crop&q=80&w=1000" class="w-full h-80 object-cover rounded-xl">
+                        </div>
+                        <!-- Actions -->
+                        <div class="px-5 py-3 border-t border-slate-100 mt-2 flex items-center justify-between text-slate-500 text-xs font-semibold">
+                            <div class="flex items-center gap-4">
+                                <button onclick="toggleLike(this)" class="flex items-center gap-1.5 hover:text-red-500 transition-colors">
+                                    <i class="fa-regular fa-heart text-base"></i>
+                                    <span>14 Likes</span>
+                                </button>
+                                <button class="flex items-center gap-1.5 hover:text-brand-600 transition-colors">
+                                    <i class="fa-regular fa-comment text-base"></i>
+                                    <span>3 Comments</span>
+                                </button>
+                            </div>
+                            <button class="hover:text-slate-700"><i class="fa-regular fa-bookmark text-base"></i></button>
+                        </div>
+                        <!-- Comments Section -->
+                        <div class="bg-slate-50/50 p-4 border-t border-slate-100 space-y-3">
+                            <div class="flex gap-2.5 text-xs">
+                                <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=150" class="w-7 h-7 rounded-full object-cover">
+                                <div class="bg-white p-2.5 rounded-xl border border-slate-200/60 flex-1">
+                                    <span class="font-bold text-slate-800">Aunt Clara:</span>
+                                    <span class="text-slate-600"> That's amazing! Give Mom a big hug from us! ❤️</span>
+                                </div>
+                            </div>
+                            <!-- Add Comment Input -->
+                            <div class="flex items-center gap-2 pt-1">
+                                <input type="text" placeholder="Write a comment..." class="w-full bg-white border border-slate-200 rounded-xl px-3 py-2 text-xs focus:outline-none focus:border-brand-500">
+                                <button class="bg-brand-600 text-white px-3 py-2 rounded-xl text-xs font-semibold hover:bg-brand-700">Reply</button>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+            </section>
+
+            <!-- 2. MEDIA GALLERY VIEW -->
+            <section id="view-gallery" class="tab-view hidden max-w-6xl mx-auto space-y-6">
+                <!-- Gallery Filter Bar -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-between items-center bg-white p-4 rounded-2xl border border-slate-200/80">
+                    <div class="flex items-center gap-2 overflow-x-auto w-full sm:w-auto">
+                        <button class="px-4 py-2 bg-brand-600 text-white rounded-xl text-xs font-semibold">All Media</button>
+                        <button class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl text-xs font-semibold">Photos</button>
+                        <button class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl text-xs font-semibold">Videos</button>
+                        <button class="px-4 py-2 bg-slate-100 hover:bg-slate-200 text-slate-600 rounded-xl text-xs font-semibold">Audio Stories</button>
+                    </div>
+                    <button onclick="openModal('mediaModal')" class="w-full sm:w-auto bg-slate-900 text-white px-4 py-2 rounded-xl text-xs font-semibold hover:bg-slate-800 flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-upload"></i> Upload Media
+                    </button>
+                </div>
+
+                <!-- Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4" id="mediaGrid">
+                    <!-- Sample Media Card Photo -->
+                    <div class="group relative bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-md transition-all">
+                        <img src="https://images.unsplash.com/photo-1511895426328-dc8714191300?auto=format&fit=crop&q=80&w=600" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-4 flex flex-col justify-end text-white">
+                            <span class="text-xs font-medium text-slate-300">Thanksgiving 2025</span>
+                            <h4 class="font-semibold text-sm truncate">Family Dinner Table</h4>
+                        </div>
+                    </div>
+                    <!-- Sample Media Card Video -->
+                    <div class="group relative bg-white rounded-2xl overflow-hidden border border-slate-200/80 shadow-sm hover:shadow-md transition-all">
+                        <img src="https://images.unsplash.com/photo-1530103862676-de8c9debad1d?auto=format&fit=crop&q=80&w=600" class="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300">
+                        <div class="absolute inset-0 bg-slate-900/30 flex items-center justify-center">
+                            <div class="w-12 h-12 rounded-full bg-white/90 flex items-center justify-center text-brand-600 shadow-lg">
+                                <i class="fa-solid fa-play ml-1"></i>
+                            </div>
+                        </div>
+                        <div class="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity p-4 flex flex-col justify-end text-white">
+                            <span class="text-xs font-medium text-slate-300">Summer 2025</span>
+                            <h4 class="font-semibold text-sm truncate">Leo's First Steps Video</h4>
+                        </div>
+                    </div>
+                    <!-- Sample Media Card Audio -->
+                    <div class="bg-gradient-to-br from-indigo-500 to-purple-600 p-5 rounded-2xl text-white flex flex-col justify-between h-48 shadow-sm">
+                        <div class="flex justify-between items-start">
+                            <span class="bg-white/20 text-xs px-2.5 py-1 rounded-full font-medium">Audio Oral History</span>
+                            <i class="fa-solid fa-microphone-lines text-2xl opacity-80"></i>
+                        </div>
+                        <div>
+                            <h4 class="font-bold text-base">Grandpa's WWII Stories</h4>
+                            <p class="text-xs text-indigo-100 mt-1">Recorded Oct 12 • 14:20 min</p>
+                        </div>
+                        <button class="w-full bg-white text-indigo-700 py-2 rounded-xl text-xs font-bold hover:bg-opacity-90 flex items-center justify-center gap-2">
+                            <i class="fa-solid fa-play"></i> Listen Story
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 3. FAMILY TREE VIEW -->
+            <section id="view-tree" class="tab-view hidden max-w-6xl mx-auto space-y-6">
+                <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm text-center">
+                    <h3 class="font-bold text-lg text-slate-900">Miller Interactive Family Tree</h3>
+                    <p class="text-xs text-slate-500 mt-1">Click on any family member to view full genealogy & profile details.</p>
+                </div>
+
+                <!-- Tree Diagram Container -->
+                <div class="bg-white p-8 rounded-2xl border border-slate-200/80 shadow-sm overflow-x-auto">
+                    <div class="min-w-[700px] flex flex-col items-center space-y-10">
+                        
+                        <!-- Generation 1: Grandparents -->
+                        <div class="flex gap-12">
+                            <div class="flex flex-col items-center">
+                                <div class="p-3 bg-indigo-50 border-2 border-indigo-500 rounded-2xl text-center w-40 cursor-pointer shadow-sm hover:shadow-md transition-shadow">
+                                    <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=150" class="w-14 h-14 rounded-full mx-auto object-cover border-2 border-white mb-2">
+                                    <h4 class="font-bold text-sm text-slate-900">Arthur Miller</h4>
+                                    <p class="text-[11px] text-slate-500">Grandfather (b. 1948)</p>
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-center">
+                                <div class="p-3 bg-indigo-50 border-2 border-indigo-500 rounded-2xl text-center w-40 cursor-pointer shadow-sm hover:shadow-md transition-shadow">
+                                    <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=150" class="w-14 h-14 rounded-full mx-auto object-cover border-2 border-white mb-2">
+                                    <h4 class="font-bold text-sm text-slate-900">Eleanor Miller</h4>
+                                    <p class="text-[11px] text-slate-500">Grandmother (b. 1950)</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="w-64 h-0.5 bg-slate-300 -my-6"></div>
+
+                        <!-- Generation 2: Parents & Uncles -->
+                        <div class="flex gap-16">
+                            <div class="tree-line flex flex-col items-center">
+                                <div class="p-3 bg-slate-50 border border-slate-300 rounded-2xl text-center w-36 shadow-sm">
+                                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&q=80&w=150" class="w-12 h-12 rounded-full mx-auto object-cover mb-2">
+                                    <h4 class="font-bold text-xs text-slate-900">Robert Miller</h4>
+                                    <p class="text-[10px] text-slate-500">Uncle</p>
+                                </div>
+                            </div>
+                            <div class="tree-line flex flex-col items-center">
+                                <div class="p-3 bg-slate-50 border border-slate-300 rounded-2xl text-center w-36 shadow-sm">
+                                    <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150" class="w-12 h-12 rounded-full mx-auto object-cover mb-2">
+                                    <h4 class="font-bold text-xs text-slate-900">David Miller</h4>
+                                    <p class="text-[10px] text-slate-500">Father</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Generation 3: Children / Grandchildren -->
+                        <div class="flex gap-8">
+                            <div class="tree-line flex flex-col items-center">
+                                <div class="p-3 bg-brand-50 border-2 border-brand-500 rounded-2xl text-center w-36 shadow-sm">
+                                    <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150" class="w-12 h-12 rounded-full mx-auto object-cover mb-2">
+                                    <h4 class="font-bold text-xs text-slate-900">Sarah Miller</h4>
+                                    <p class="text-[10px] text-brand-600 font-semibold">You</p>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </section>
+
+            <!-- 4. EVENTS CALENDAR VIEW -->
+            <section id="view-calendar" class="tab-view hidden max-w-5xl mx-auto space-y-6">
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Calendar View Box -->
+                    <div class="lg:col-span-2 bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm">
+                        <div class="flex justify-between items-center mb-6">
+                            <h3 class="font-bold text-slate-900 text-lg">October 2026</h3>
+                            <div class="flex gap-2">
+                                <button class="p-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600"><i class="fa-solid fa-chevron-left"></i></button>
+                                <button class="p-2 rounded-xl border border-slate-200 hover:bg-slate-50 text-slate-600"><i class="fa-solid fa-chevron-right"></i></button>
+                            </div>
+                        </div>
+                        <!-- Days Header -->
+                        <div class="grid grid-cols-7 text-center font-semibold text-xs text-slate-400 mb-3">
+                            <div>Sun</div><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div>
+                        </div>
+                        <!-- Days Grid -->
+                        <div class="grid grid-cols-7 text-center gap-2 text-sm">
+                            <span class="p-3 text-slate-300">27</span>
+                            <span class="p-3 text-slate-300">28</span>
+                            <span class="p-3 text-slate-300">29</span>
+                            <span class="p-3 text-slate-300">30</span>
+                            <span class="p-3 hover:bg-slate-50 rounded-xl">1</span>
+                            <span class="p-3 hover:bg-slate-50 rounded-xl">2</span>
+                            <span class="p-3 hover:bg-slate-50 rounded-xl">3</span>
+                            <span class="p-3 hover:bg-slate-50 rounded-xl">4</span>
+                            <span class="p-3 bg-brand-50 font-bold text-brand-600 rounded-xl">5</span>
+                            <span class="p-3 hover:bg-slate-50 rounded-xl">6</span>
+                            <span class="p-3 hover:bg-slate-50 rounded-xl">7</span>
+                            <span class="p-3 hover:bg-slate-50 rounded-xl">8</span>
+                            <span class="p-3 hover:bg-slate-50 rounded-xl">9</span>
+                            <span class="p-3 bg-indigo-600 text-white font-bold rounded-xl shadow-md">10</span>
+                            <span class="p-3 hover:bg-slate-50 rounded-xl">11</span>
+                            <span class="p-3 hover:bg-slate-50 rounded-xl">12</span>
+                            <span class="p-3 hover:bg-slate-50 rounded-xl">13</span>
+                            <span class="p-3 hover:bg-slate-50 rounded-xl">14</span>
+                            <span class="p-3 hover:bg-slate-50 rounded-xl">15</span>
+                            <span class="p-3 hover:bg-slate-50 rounded-xl">16</span>
+                            <span class="p-3 hover:bg-slate-50 rounded-xl">17</span>
+                        </div>
+                    </div>
+
+                    <!-- Upcoming Events Sidebar -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm space-y-4">
+                        <h3 class="font-bold text-slate-900 text-lg">Upcoming Family Events</h3>
+                        
+                        <div class="p-4 rounded-xl bg-indigo-50 border border-indigo-100 space-y-1">
+                            <span class="text-xs font-bold text-indigo-600 uppercase tracking-wider">Oct 10 • Saturday</span>
+                            <h4 class="font-bold text-slate-900 text-sm">Grandma's 75th Birthday Party</h4>
+                            <p class="text-xs text-slate-500"><i class="fa-solid fa-location-dot mr-1"></i> Miller Family Home, Austin</p>
+                        </div>
+
+                        <div class="p-4 rounded-xl bg-slate-50 border border-slate-100 space-y-1">
+                            <span class="text-xs font-bold text-slate-500 uppercase tracking-wider">Nov 26 • Thursday</span>
+                            <h4 class="font-bold text-slate-900 text-sm">Annual Thanksgiving Gathering</h4>
+                            <p class="text-xs text-slate-500"><i class="fa-solid fa-location-dot mr-1"></i> Uncle Robert's Place</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 5. CHAT MESSAGING VIEW -->
+            <section id="view-messages" class="tab-view hidden max-w-5xl mx-auto">
+                <div class="bg-white rounded-2xl border border-slate-200/80 shadow-sm flex h-[600px] overflow-hidden">
+                    <!-- Conversations List -->
+                    <div class="w-1/3 border-r border-slate-200 p-4 space-y-3">
+                        <h3 class="font-bold text-slate-900 text-base mb-4">Messages</h3>
+                        <div class="p-3 rounded-xl bg-brand-50 border border-brand-100 flex items-center gap-3 cursor-pointer">
+                            <div class="w-10 h-10 rounded-full bg-brand-600 text-white flex items-center justify-center font-bold text-sm">
+                                FG
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <h4 class="font-bold text-sm text-slate-900 truncate">Family Group Chat</h4>
+                                <p class="text-xs text-slate-500 truncate">David: Who is bringing dessert?</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Active Chat Room -->
+                    <div class="flex-1 flex flex-col justify-between bg-slate-50/50">
+                        <div class="p-4 border-b border-slate-200 bg-white flex items-center justify-between">
+                            <h4 class="font-bold text-slate-900">Family Group Chat</h4>
+                            <span class="text-xs text-slate-400">8 Members Active</span>
+                        </div>
+
+                        <!-- Chat Messages History -->
+                        <div class="p-4 overflow-y-auto space-y-4 flex-1">
+                            <div class="flex gap-3">
+                                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&q=80&w=150" class="w-8 h-8 rounded-full">
+                                <div class="bg-white p-3 rounded-2xl border border-slate-200 max-w-xs shadow-sm">
+                                    <p class="text-xs font-semibold text-slate-800 mb-1">David Miller</p>
+                                    <p class="text-xs text-slate-600">Hey everyone! Don't forget to upload your photos from last weekend's BBQ!</p>
+                                </div>
+                            </div>
+                            <div class="flex gap-3 justify-end">
+                                <div class="bg-brand-600 text-white p-3 rounded-2xl max-w-xs shadow-sm">
+                                    <p class="text-xs">Already uploaded mine to the vault! 📸</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Input Bar -->
+                        <div class="p-4 bg-white border-t border-slate-200 flex items-center gap-2">
+                            <input type="text" placeholder="Type a message..." class="flex-1 bg-slate-100 border-none rounded-xl px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-500">
+                            <button class="bg-brand-600 text-white p-2.5 rounded-xl hover:bg-brand-700 transition-colors">
+                                <i class="fa-solid fa-paper-plane text-sm"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 6. DIRECTORY VIEW -->
+            <section id="view-directory" class="tab-view hidden max-w-6xl mx-auto space-y-6">
+                <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6" id="directoryList">
+                    <!-- Member Card 1 -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm text-center">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&q=80&w=150" class="w-20 h-20 rounded-full mx-auto object-cover mb-3">
+                        <h3 class="font-bold text-slate-900 text-base">Arthur Miller</h3>
+                        <p class="text-xs text-brand-600 font-semibold">Grandfather</p>
+                        <p class="text-xs text-slate-400 mt-2"><i class="fa-solid fa-location-dot"></i> Austin, TX</p>
+                    </div>
+                    <!-- Member Card 2 -->
+                    <div class="bg-white p-6 rounded-2xl border border-slate-200/80 shadow-sm text-center">
+                        <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&q=80&w=150" class="w-20 h-20 rounded-full mx-auto object-cover mb-3">
+                        <h3 class="font-bold text-slate-900 text-base">Eleanor Miller</h3>
+                        <p class="text-xs text-brand-600 font-semibold">Grandmother</p>
+                        <p class="text-xs text-slate-400 mt-2"><i class="fa-solid fa-location-dot"></i> Austin, TX</p>
+                    </div>
+                </div>
+            </section>
+
+        </main>
+    </div>
+
+    <!-- MODAL: Create New Post -->
+    <div id="postModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-100">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-bold text-lg text-slate-900">Create Family Post</h3>
+                <button onclick="closeModal('postModal')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <textarea id="postContent" rows="4" class="w-full bg-slate-50 border border-slate-200 rounded-xl p-3 text-sm focus:outline-none focus:border-brand-500" placeholder="What's happening in your branch of the family?"></textarea>
+            <div class="flex justify-end gap-3 mt-4">
+                <button onclick="closeModal('postModal')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">Cancel</button>
+                <button onclick="createPost()" class="px-5 py-2 rounded-xl text-xs font-semibold bg-brand-600 text-white hover:bg-brand-700">Publish Post</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL: Media Upload -->
+    <div id="mediaModal" class="fixed inset-0 bg-slate-900/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-lg w-full p-6 shadow-2xl border border-slate-100">
+            <div class="flex justify-between items-center mb-4">
+                <h3 class="font-bold text-lg text-slate-900">Upload Media to Vault</h3>
+                <button onclick="closeModal('mediaModal')" class="text-slate-400 hover:text-slate-600"><i class="fa-solid fa-xmark text-lg"></i></button>
+            </div>
+            <div class="border-2 border-dashed border-slate-200 rounded-xl p-8 text-center bg-slate-50 hover:bg-slate-100 transition-colors cursor-pointer">
+                <i class="fa-solid fa-cloud-arrow-up text-3xl text-brand-500 mb-2"></i>
+                <p class="text-sm font-semibold text-slate-700">Drag & drop photos, videos or audio</p>
+                <p class="text-xs text-slate-400 mt-1">Supports JPG, PNG, MP4, MP3 up to 50MB</p>
+            </div>
+            <div class="flex justify-end gap-3 mt-4">
+                <button onclick="closeModal('mediaModal')" class="px-4 py-2 rounded-xl text-xs font-semibold text-slate-600 hover:bg-slate-100">Cancel</button>
+                <button onclick="closeModal('mediaModal')" class="px-5 py-2 rounded-xl text-xs font-semibold bg-brand-600 text-white hover:bg-brand-700">Upload Files</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript Logic -->
+    <script>
+        function switchTab(tabId) {
+            // Hide all tab views
+            document.querySelectorAll('.tab-view').forEach(el => el.classList.add('hidden'));
+            
+            // Show target view
+            const target = document.getElementById('view-' + tabId);
+            if (target) target.classList.remove('hidden');
+
+            // Update Navigation active state
+            document.querySelectorAll('.nav-btn').forEach(btn => {
+                btn.classList.remove('text-brand-600', 'bg-brand-50');
+                btn.classList.add('text-slate-600');
+            });
+
+            // Set clicked button to active
+            event.currentTarget.classList.add('text-brand-600', 'bg-brand-50');
+            event.currentTarget.classList.remove('text-slate-600');
+
+            // Close mobile sidebar on tab selection
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.add('-translate-x-full');
+            overlay.classList.add('hidden');
+        }
+
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            sidebar.classList.toggle('-translate-x-full');
+            overlay.classList.toggle('hidden');
+        }
+
+        function openModal(id) {
+            document.getElementById(id).classList.remove('hidden');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.add('hidden');
+        }
+
+        function toggleLike(btn) {
+            const icon = btn.querySelector('i');
+            if (icon.classList.contains('fa-regular')) {
+                icon.classList.remove('fa-regular');
+                icon.classList.add('fa-solid', 'text-red-500');
+            } else {
+                icon.classList.remove('fa-solid', 'text-red-500');
+                icon.classList.add('fa-regular');
+            }
+        }
+
+        function createPost() {
+            const content = document.getElementById('postContent').value;
+            if (!content) return;
+
+            const feedList = document.getElementById('feedList');
+            const newArticle = document.createElement('article');
+            newArticle.className = 'bg-white rounded-2xl shadow-sm border border-slate-200/80 overflow-hidden';
+            newArticle.innerHTML = `
+                <div class="p-5 flex items-center justify-between">
+                    <div class="flex items-center gap-3">
+                        <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=150" class="w-10 h-10 rounded-full object-cover">
+                        <div>
+                            <h3 class="font-semibold text-slate-900 text-sm">Sarah Miller</h3>
+                            <p class="text-xs text-slate-400">Just now • <span class="text-brand-600 font-medium">Update</span></p>
+                        </div>
+                    </div>
+                </div>
+                <p class="px-5 pb-4 text-slate-700 text-sm leading-relaxed">${content}</p>
+            `;
+
+            feedList.prepend(newArticle);
+            document.getElementById('postContent').value = '';
+            closeModal('postModal');
+        }
+    </script>
 </body>
 </html>
+```
